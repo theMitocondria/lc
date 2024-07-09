@@ -1,12 +1,12 @@
 import json
 from modal import checkPlagPercentage
 # Load JSON data from 1.json file
-with open('responses1.json', 'r') as file:
+with open('responses2.json', 'r') as file:
     data = json.load(file)
 
 st = set()
 
-for curr in range(0, 6) : 
+for curr in range(0, 10) : 
     st.add((checkPlagPercentage(data[curr]['code']), data[curr]['rank']))
 
 print(st)

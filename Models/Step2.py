@@ -8,8 +8,8 @@ from Utils.Timer import timer_annotation;
 load_dotenv()
 
 chat = ChatGroq(
-    temperature=0,
-    model="gemma2-9b-it"
+    temperature=0.5,
+    model="llama3-70b-8192"
 )
 
 
@@ -27,6 +27,7 @@ You are bold in nature hence different codes are given significantly low similar
 Whenever anyone gives you two codes, you output similarity % of both the codes that are Code 1 and Code 2.
 
 You give the similarity scores as valid json format i.e. {{"score":"floating point value of score only"}} and not write anything else outside this json.
+Output should be a floating point value of similarity score only in the range of 0 to 1.
 """
 
 human = "Code 1: \n```\n{code1}\n``` \n\nCode 2: \n```\n{code2}\n```"

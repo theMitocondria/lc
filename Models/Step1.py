@@ -2,6 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 import json
 from dotenv import load_dotenv
+import os
 from Utils.Timer import timer_annotation;
 
 load_dotenv()
@@ -18,8 +19,8 @@ You operate in the following way.
 1) You remove all the comments from the codes.
 2) You unnecessary  variables, loops, and function calls which are not affecting the results or return values.
 
-You give the processed codes as output in the valid json format i.e. {{"processedCode":"output code after processing"}} and not write anything else outside this json.
-
+You give the processed codes as output in the valid string literal format i.e. "output code after processing" and not write anything else outside this string.
+You always take care of  escaping the special characters properly in the ouput string of the code.
 """
 
 human = "Code: \n{code}"
@@ -28,12 +29,19 @@ prompt = ChatPromptTemplate.from_messages([("system", system), ("human", human)]
 chain1 = prompt | chat
 
 def processcode(txt):
-    if not txt.startswith("{"):
-        txt = txt[7:-3].strip()
+    # print(txt[1:-1])
 
-    out1 = json.loads(txt)
-    processed1 = out1["processedCode"]
-    return processed1
+    return txt[1:-1]
+    # txt = '%r'%txt
+    
+    # try:
+    #     out1 = json.loads(txt)
+    #     processed1 = out1["processedCode"]
+    #     return processed1
+    # except:
+    #     out1 = json.loads(txt)
+    #     processed1 = out1["processedCode"]
+    #     return processed1
 
 @timer_annotation
 def Step1(code1) :
