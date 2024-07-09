@@ -44,7 +44,7 @@ def click_element(driver, element, retries=1):
 
 
 base_url = 'https://leetcode.com/contest/biweekly-contest-134/ranking/'
-NUM_THREADS = 3  # Adjust based on your system
+NUM_THREADS = 3 # Adjust based on your system
 
 def process_page(page_number):
     solutions_list = []
@@ -100,7 +100,7 @@ def process_page(page_number):
                 #finishing_time = cols[3].text
                 # [{rank , username , ['3'],['4']}]
                 result = { "rank" : rank , "username" : username , "solutions" : []}
-                for i in range(6, 8):
+                for i in range(7, 8):
                     try:
                         a_tag = cols[i].find_element(By.TAG_NAME, 'a')
                         if click_element(driver, a_tag):
@@ -113,7 +113,7 @@ def process_page(page_number):
                             match = ""
                             for i in range(len(logs) - 1, -1, -1):
                                 log = str(logs[i])
-                                matches = re.search(r'https:\/\/leetcode\.[a-z]{2,3}\/api\/submissions\/[0-9]+\/', log)
+                                matches = re.search(r'https://leetcode.com/api/submissions\/[0-9]+\/', log)
                                 if matches:
                                     match = matches.group(0)
                                     result["solutions"].append(match)
@@ -139,7 +139,7 @@ def process_page(page_number):
 
 with open('1.json', 'w') as file:
     with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
-        page_results = executor.map(process_page, range(1, 2))
+        page_results = executor.map(process_page, range(1, 20))
         final_array = []
         for result in page_results:
             final_array = final_array + result 
