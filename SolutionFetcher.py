@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Load JSON data from 1.json file
-with open('1.json', 'r') as file:
+with open('2.json', 'r') as file:
     data = json.load(file)
 
 # Setup Selenium
@@ -21,7 +21,7 @@ def setup_driver():
     return driver
 
 # Fetch the solution code from a given URL
-def fetch_solution(user, solution_url):
+def fetch_solution(user, solution_url, questionId):
     driver = setup_driver()
     try:
         driver.get(solution_url)
@@ -38,6 +38,7 @@ def fetch_solution(user, solution_url):
                 "rank": user['rank'],
                 "username": user['username'],
                 "solution_url": solution_url,
+                "questionId" : questionId,
                 "code": code
             }
     except Exception as e:
@@ -53,14 +54,18 @@ with ThreadPoolExecutor(max_workers=3) as executor:  # Adjust max_workers as nee
     futures = []
     for user in data:
         for solution_url in user['solutions']:
-            futures.append(executor.submit(fetch_solution, user, solution_url))
+            # print(solution_url, solution_url['3'])
+            if '3' in solution_url :
+                 futures.append(executor.submit(fetch_solution, user, solution_url['3'], 3))
+            if '4' in solution_url : 
+                futures.append(executor.submit(fetch_solution, user, solution_url['4'], 4))
     
     for future in as_completed(futures):
         result = future.result()
         if result:
             responses.append(result)
 
-with open('responses1.json', 'w') as file:
+with open('responses.json', 'w') as file:
     json.dump(responses, file, indent=4)
 
 print("Data fetched and saved to responses1.json")

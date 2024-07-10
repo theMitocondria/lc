@@ -79,7 +79,8 @@ def process_page(page_number):
                 rank = cols[0].text
                 username = cols[1].text
                 result = { "rank" : rank , "username" : username , "solutions" : []}
-                for i in range(7, 8):
+                for i in range(6, 8):
+                    questionid = i - 3
                     try:
                         a_tag = cols[i].find_element(By.TAG_NAME, 'a')
                         if click_element(driver, a_tag):
@@ -91,7 +92,7 @@ def process_page(page_number):
                                 matches = re.search(r'https://leetcode.com/api/submissions\/[0-9]+\/', log)
                                 if matches:
                                     match = matches.group(0)
-                                    result["solutions"].append(match)
+                                    result["solutions"].append({questionid : match})
                                     break
                             print(match)
                     except (StaleElementReferenceException, ElementNotInteractableException, ElementClickInterceptedException) as e:
@@ -107,17 +108,17 @@ def process_page(page_number):
     # Write the results of this page to the file immediately
     with lock:
         try:
-            with open('1.json', 'r') as file:
+            with open('2.json', 'r') as file:
                 final_array = json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             final_array = []
         
         final_array += solutions_list
 
-        with open('1.json', 'w') as file:
+        with open('2.json', 'w') as file:
             json.dump(final_array, file, indent=4)
     
     return solutions_list
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
-    executor.map(process_page, range(55, 100))
+    executor.map(process_page, range(55, 58))
