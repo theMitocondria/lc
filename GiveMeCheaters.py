@@ -3,7 +3,7 @@ from PlagModel import checkPlagPercentage
 import asyncio
 
 async def giveMeCheaters () : 
-    with open('responses2.json', 'r') as file:
+    with open('responses1.json', 'r') as file:
         data = json.load(file)
 
     cheaters4 = []

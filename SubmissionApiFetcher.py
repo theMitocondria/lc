@@ -121,4 +121,4 @@ def process_page(page_number):
     return solutions_list
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
-    executor.map(process_page, range(55, 58))
+    executor.map(process_page, range(65, 81))

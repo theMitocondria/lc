@@ -1,8 +1,8 @@
 from mongoengine import Document, StringField, IntField, ListField, connect
 
 class Cheater(Document):
-    userName = StringField(unique=True)
-    rank = IntField(unique=True)
+    userName = StringField()
+    rank = IntField()
     questionLink = StringField()
     contestId = StringField()
 
@@ -12,6 +12,6 @@ class Contest(Document):
     question4 = ListField()
 
 class Solution(Document):
-    rank = IntField(unique=True)
+    rank = IntField()
     solution = StringField()
     contestId = StringField()

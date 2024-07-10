@@ -26,7 +26,10 @@ async def save_contest_with_Cheaters(contest):
     # print(cheaters[2])
     contest.question3 = cheaters[0]
     contest.question4 = cheaters[2]
+    contest.save()
 
+    print('hihih')
+    
     def fill(cheater):
         for curr in  range(0,len(cheater)) :
             solution = Solution(contestId = contest.name , rank = cheater[curr]['rank']  , solution = cheater[curr]['solution'])
@@ -34,9 +37,6 @@ async def save_contest_with_Cheaters(contest):
     
     fill(cheaters[3])
     fill(cheaters[1])
-
-    contest.save()
-    print('hihih')
 
 @app.route('/contest/create', methods=['POST'])
 def contest_creation():
@@ -58,21 +58,21 @@ def contest_creation():
 
 
 
-# @app.route('/contest/all', methods=['GET'])
-# def get_all_contests():
-#     try:
-#         contests = Contest.objects().to_json()  # Fetch all contests from MongoDB
-#         return contests, 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
+@app.route('/contest/all', methods=['GET'])
+def get_all_contests():
+    try:
+        contests = Contest.objects().to_json()  # Fetch all contests from MongoDB
+        return contests, 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-# @app.route('/solution/all', methods=['GET'])
-# def get_all_solutions():
-#     try:
-#         contests = Solution.objects().to_json()  # Fetch all contests from MongoDB
-#         return contests, 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
+@app.route('/solution/all', methods=['GET'])
+def get_all_solutions():
+    try:
+        contests = Solution.objects().to_json()  # Fetch all contests from MongoDB
+        return contests, 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
 if __name__ == "__main__":
     port = os.getenv("PORT", 5000)
