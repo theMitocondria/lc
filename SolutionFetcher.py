@@ -65,7 +65,7 @@ with ThreadPoolExecutor(max_workers=3) as executor:  # Adjust max_workers as nee
         if result:
             responses.append(result)
 
-with open('responses.json', 'w') as file:
+with open('responses1.json', 'w') as file:
     json.dump(responses, file, indent=4)
 
 print("Data fetched and saved to responses1.json")

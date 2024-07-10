@@ -2,7 +2,7 @@ import json
 from PlagModel import checkPlagPercentage
 
 def giveMeCheaters () : 
-    with open('responses.json', 'r') as file:
+    with open('responses1.json', 'r') as file:
         data = json.load(file)
 
     cheaters4 = []
@@ -26,6 +26,9 @@ def giveMeCheaters () :
                 cheaters3Sol.append({"rank" : data[curr]['rank'], "solution" : data[curr]["code"]})
         
 
-    cheaters = [cheaters3, cheaters3Sol, cheaters4, cheaters4Sol]
-
+    # cheaters = [cheaters3, cheaters3Sol, cheaters4, cheaters4Sol]
+    cheaters = [cheaters3, cheaters4]
     return cheaters
+
+print(giveMeCheaters())
+
