@@ -2,3 +2,9 @@ langchain-groq
 selenium
 regex
 python-dotenv
+bs4
+webdriver-manager
+Flask
+Flask-Cors
+python-dotenv
+mongoengine
