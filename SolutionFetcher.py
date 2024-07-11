@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Load JSON data from 1.json file
-with open('2.json', 'r') as file:
+with open('1.json', 'r') as file:
     data = json.load(file)
 
 # Setup Selenium

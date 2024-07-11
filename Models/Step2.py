@@ -9,7 +9,7 @@ from Utils.Timer import timer_annotation
 load_dotenv()
 
 # Load API keys from .env file
-api_keys = [os.getenv(f'GROQ_API_KEY_{i}') for i in range(1, 9)]
+api_keys = [os.getenv(f'GROQ_API_KEY_{i}') for i in range(2, 41)]
 api_keys_cycle = cycle(api_keys)
 
 # Function to create a ChatGroq instance with a given API key
@@ -49,7 +49,7 @@ max_requests_per_key = 4
 
 chain = prompt | chat
 
-@timer_annotation
+# @timer_annotation
 def Step2(code1, code2):
     global chat, request_counter, current_api_key
     # Increment the request counter
