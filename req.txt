@@ -8,3 +8,4 @@ Flask
 Flask-Cors
 python-dotenv
 mongoengine
+aiofiles

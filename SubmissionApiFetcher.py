@@ -16,8 +16,13 @@ import concurrent.futures
 from datetime import datetime
 from selenium.webdriver.common.keys import Keys
 import threading
+from Contants import BASE_URL
+from Contants import NUM_THREADS
+from Contants import STARTING_PAGE
+from Contants import ENDING_PAGE
 
 lock = threading.Lock()
+base_url = BASE_URL
 
 def wait_click(driver, xpath, retries=3):
     for attempt in range(retries):
@@ -42,8 +47,6 @@ def click_element(driver, element, retries=1):
             driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.ESCAPE)
     return False
 
-base_url = 'https://leetcode.com/contest/biweekly-contest-134/ranking/'
-NUM_THREADS = 3  # Adjust based on your system
 
 def process_page(page_number):
     solutions_list = []
@@ -79,7 +82,7 @@ def process_page(page_number):
                 rank = cols[0].text
                 username = cols[1].text
                 result = { "rank" : rank , "username" : username , "solutions" : []}
-                for i in range(6, 8):
+                for i in range(7, 8):
                     questionid = i - 3
                     try:
                         a_tag = cols[i].find_element(By.TAG_NAME, 'a')
@@ -108,17 +111,17 @@ def process_page(page_number):
     # Write the results of this page to the file immediately
     with lock:
         try:
-            with open('2.json', 'r') as file:
+            with open('1.json', 'r') as file:
                 final_array = json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             final_array = []
         
         final_array += solutions_list
 
-        with open('2.json', 'w') as file:
+        with open('1.json', 'w') as file:
             json.dump(final_array, file, indent=4)
     
     return solutions_list
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
-    executor.map(process_page, range(65, 81))
+    executor.map(process_page, range(STARTING_PAGE, ENDING_PAGE))
