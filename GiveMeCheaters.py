@@ -5,7 +5,7 @@ import time
 
 max_retries = 5        # Maximum retry attempts
 retry_delay = 1        # Initial delay in seconds
-api_call_limit = 30   # Limit of API calls before pausing
+api_call_limit = 20   # Limit of API calls before pausing
 pause_duration = 20    # Pause duration in seconds
 call_counter = 0
 
@@ -21,6 +21,7 @@ async def check_plag_percentage_with_retry_and_throttling(code, question_id):
     for attempt in range(max_retries):
         try:
             result = checkPlagPercentage(code, question_id)
+            # print(result)  
             return json.loads(result)
         except Exception as e:  
             if attempt < max_retries - 1:  
@@ -28,6 +29,10 @@ async def check_plag_percentage_with_retry_and_throttling(code, question_id):
                 await asyncio.sleep(retry_delay * 2 ** attempt) 
             else: 
                 raise
+            # ret = {"score" : 0.01}
+            # print(ret)
+            # return json.loads(ret)
+
 
 async def giveMeCheaters():
     global call_counter

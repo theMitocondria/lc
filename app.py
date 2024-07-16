@@ -101,7 +101,7 @@ def contest_creation():
         # contest.save()
       
         # Run the async task in a separate thread
-        threading.Thread(target=lambda: asyncio.run(save_contest_with_Cheaters(contest_name))).start()
+        asyncio.run(save_contest_with_Cheaters(contest_name))
 
         return jsonify({"message": "Contest created"}), 201
     except Exception as e:
