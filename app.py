@@ -28,12 +28,8 @@ async def add_cheaters_to_contest(contest):
     cheaters4sol = cheaters[3]
     
     def fill(cheaters, cheaters_sol , contest_question_field):
-
-        if contest_question_field == 3 :
-            array_of_cheaters = CheaterArray.objects.get(id = contest.question3.id)
-        elif contest_question_field == 4 :
-            array_of_cheaters = CheaterArray.objects.get(id = contest.question4.id)
-
+        array_of_cheaters = []
+        
         for curr in range(len(cheaters)):
             curr_sol = Solution(code=cheaters_sol[curr]['solution'])
             curr_sol.save()
@@ -43,12 +39,22 @@ async def add_cheaters_to_contest(contest):
                 plagpercentage=cheaters[curr]['cheatedPercentage'],
                 code=curr_sol
             )
-            array_of_cheaters.array_of_cheaters.append(curr_cheater)
-        array_of_cheaters.save()
+            array_of_cheaters.append(curr_cheater)
+
+        if contest_question_field == 3 :
+            arraycheaters = CheaterArray.objects.get(id = contest.question3.id)
+        elif contest_question_field == 4 :
+            arraycheaters = CheaterArray.objects.get(id = contest.question4.id)
+
+        array_of_cheaters = array_of_cheaters + arraycheaters.array_of_cheaters  
+        sorted_array_of_cheaters = sorted(array_of_cheaters, key=lambda x: x["plagpercentage"], reverse=True)
+        arraycheaters.array_of_cheaters = sorted_array_of_cheaters
+        arraycheaters.save()
+
         if(contest_question_field == 3) :
-            contest.question3 = array_of_cheaters
+            contest.question3 = arraycheaters
         elif (contest_question_field == 4) :
-            contest.question4 = array_of_cheaters
+            contest.question4 = arraycheaters
             
             
     
@@ -90,7 +96,7 @@ async def save_contest_with_Cheaters(contest_name):
     contest.cheated4Sol = solution4 
     
     def fill(cheaters, cheaters_sol, contest_question_field):
-        array_of_cheaters = CheaterArray()
+        array_of_cheaters = []
         for curr in range(len(cheaters)):
             curr_sol = Solution(code=cheaters_sol[curr]['solution'])
             curr_sol.save()
@@ -100,12 +106,17 @@ async def save_contest_with_Cheaters(contest_name):
                 plagpercentage=cheaters[curr]['cheatedPercentage'],
                 code=curr_sol
             )
-            array_of_cheaters.array_of_cheaters.append(curr_cheater)
-        array_of_cheaters.save()
+            array_of_cheaters.append(curr_cheater)
+        
+        sorted_array_of_cheaters = sorted(array_of_cheaters, key=lambda x: x["plagpercentage"], reverse=True)
+        cheaterArray = CheaterArray(array_of_cheaters = sorted_array_of_cheaters) 
+        cheaterArray.save()
+        # print(cheaterArray)
+
         if(contest_question_field == 3) :
-            contest.question3 = array_of_cheaters
+            contest.question3 = cheaterArray
         elif (contest_question_field == 4) :
-            contest.question4 = array_of_cheaters
+            contest.question4 = cheaterArray
         
     
     fill(cheaters3 , cheaters3sol , 3) 
