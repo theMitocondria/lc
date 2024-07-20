@@ -9,7 +9,7 @@ import os
 load_dotenv()
 
 # Load API keys from .env file
-api_keys = [os.getenv(f'GROQ_API_KEY_{i}') for i in range(1, 2)]
+api_keys = [os.getenv(f'GROQ_API_KEY_{i}') for i in range(3,4)]
 api_keys_cycle = cycle(api_keys)
 
 # Function to create a ChatGroq instance with a given API key

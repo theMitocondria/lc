@@ -50,15 +50,19 @@ def fetch_solution(user, solution_url, questionId):
 responses = []
 
 # Use ThreadPoolExecutor to parallelize fetching process
-with ThreadPoolExecutor(max_workers=3) as executor:  # Adjust max_workers as needed
+with ThreadPoolExecutor(max_workers=5) as executor:  # Adjust max_workers as needed
     futures = []
+
     for user in data:
+      
+
         for solution_url in user['solutions']:
             # print(solution_url, solution_url['3'])
             if '3' in solution_url :
                  futures.append(executor.submit(fetch_solution, user, solution_url['3'], 3))
             if '4' in solution_url : 
                 futures.append(executor.submit(fetch_solution, user, solution_url['4'], 4))
+
     
     for future in as_completed(futures):
         result = future.result()

@@ -1,12 +1,13 @@
 import json
-from PlagModel import checkPlagPercentage  # Ensure this is an async function
+from PlagModel import checkPlagPercentage 
 import asyncio
 import time
 
-max_retries = 5        # Maximum retry attempts
-retry_delay = 1        # Initial delay in seconds
-api_call_limit = 20   # Limit of API calls before pausing
-pause_duration = 20    # Pause duration in seconds
+max_retries = 5       
+retry_delay = 1       
+api_call_limit = 30   
+pause_duration = 10   
+
 call_counter = 0
 
 async def check_plag_percentage_with_retry_and_throttling(code, question_id):
@@ -21,25 +22,25 @@ async def check_plag_percentage_with_retry_and_throttling(code, question_id):
     for attempt in range(max_retries):
         try:
             result = checkPlagPercentage(code, question_id)
-            # print(result)  
+            print(result)  
             return json.loads(result)
         except Exception as e:  
-            if attempt < max_retries - 1:  
-                print(f"Error checking plagiarism, retrying ({attempt + 1}/{max_retries}): {e}")
-                await asyncio.sleep(retry_delay * 2 ** attempt) 
-            else: 
-                raise
-            # ret = {"score" : 0.01}
-            # print(ret)
-            # return json.loads(ret)
+            print('error :((((((' )
+            print(e)
+            ret = {"score" : 0.01}
+            if isinstance(ret, dict):
+                return ret
+            else:
+                return json.loads(ret)
 
-
+            
 async def giveMeCheaters():
     global call_counter
-    call_counter = 0 # initialize call counter
+    call_counter = 0 
 
-    with open('responses1.json', 'r') as file:
+    with open('responses.json', 'r') as file:
         data = json.load(file)
+    print(len(data))
 
     cheaters4 = []
     cheaters4Sol = []
@@ -49,14 +50,16 @@ async def giveMeCheaters():
     for curr in range(0, len(data)):
         print(i)
         i = i + 1
-        if data[curr]['questionId'] == 4:
+        if data[curr]['questionId'] == '4':
             cheatedPercentage = await check_plag_percentage_with_retry_and_throttling(data[curr]['code'], '4')
-            if cheatedPercentage['score'] > 0.7:
+
+            if cheatedPercentage['score'] > 0.78:
                 cheaters4.append({"rank": data[curr]['rank'], "username": data[curr]["username"], "cheatedPercentage": cheatedPercentage['score']})
                 cheaters4Sol.append({"rank": data[curr]['rank'], "solution": data[curr]["code"]})
-        if data[curr]['questionId'] == 3:
+        if data[curr]['questionId'] == '3':
             cheatedPercentage = await check_plag_percentage_with_retry_and_throttling(data[curr]['code'], '3')
-            if cheatedPercentage['score'] > 0.7:
+            if cheatedPercentage['score'] > 0.78:
+
                 cheaters3.append({"rank": data[curr]['rank'], "username": data[curr]["username"], "cheatedPercentage": cheatedPercentage['score']})
                 cheaters3Sol.append({"rank": data[curr]['rank'], "solution": data[curr]["code"]})
 
