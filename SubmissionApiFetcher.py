@@ -98,7 +98,8 @@ def process_page(page_number):
                             match = ""
                             for i in range(len(logs) - 1, -1, -1):
                                 log = str(logs[i])
-                                matches = re.search(r'https://leetcode.com/api/submissions\/[0-9]+\/', log)
+                                # matches = re.search(r'https://leetcode.com/api/submissions\/[0-9]+\/', log)
+                                matches = re.search(r'https:\/\/leetcode\.[a-z]{2,3}\/api\/submissions\/[0-9]+\/', log)
                                 if matches:
                                     match = matches.group(0)
                                     result["solutions"].append({questionid : match})

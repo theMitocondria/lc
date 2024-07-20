@@ -5,8 +5,8 @@ import time
 
 max_retries = 5       
 retry_delay = 1       
-api_call_limit = 30   
-pause_duration = 10   
+api_call_limit = 25  
+pause_duration = 20
 
 call_counter = 0
 

@@ -1,90 +1,47 @@
-BASE_URL = 'https://leetcode.com/contest/biweekly-contest-134/ranking/'
+BASE_URL = 'https://leetcode.com/contest/biweekly-contest-135/ranking/'
 NUM_THREADS = 3  
-STARTING_PAGE = 40
-ENDING_PAGE = 60
+STARTING_PAGE = 25  #95
+ENDING_PAGE = 95    #163
 
 STARTQUESTION = 6  # give 6 to sracp 3 and 4 give 7 to scrap only 4
-ENDQUESTION = 8    # always remaing 8
+ENDQUESTION = 7   # always remaing 8
 
 code4 = """ 
-class Solution {
-public:
-  long long countSubarrays(vector<int>& nums, int k) {
-    int n = nums.size();
-    long long count = 0;
-    unordered_map<long long, long long> prevResults;
-    for (int i = 0; i < n; ++i) {
-        unordered_map<long long, long long> currResults;
-        if (nums[i] == k) {
-          ++count;
-        }
-        currResults[nums[i]] = 1;
-        for (auto& [val, freq]: prevResults) {
-          long long newAndResult = val & nums[i];
-          if (newAndResult == k) {
-                count += freq;
-          }
-          currResults[newAndResult] += freq;
-        }
-        prevResults = currResults;
-    }
-    return count;
-  }
-};
 """
 
 code3 = """
 class Solution {
 public:
-    int numberOfAlternatingGroups(vector<int>& arr, int k) {
-        int n=arr.size();
-        vector<int> a(n+k-1);
-        for(int i=0;i<n;i++)
-        {
-            a[i]=arr[i];
+    int minChanges(std::vector<int>& nums, int k) {
+        std::map<int, std::vector<int>> m;
+        std::vector<int> v;
+
+        for (int i = 0; i < nums.size() / 2; ++i) {
+            int a = nums[i];
+            int b = nums[nums.size() - i - 1];
+            int diff = std::abs(a - b);
+             int X = std::max({a, b, k - a, k - b});
+             m[diff].push_back(X);
+            v.push_back(X);
         }
-        for(int i=n;i<n+k-1;i++)
-        {
-            a[i]=arr[i%n];
-        }
-        int i=0;int j=0;
-        int expected;
-        int len=0;
-        int ans=0;
-        while(j<a.size())
-        {
-            if(j==0)
-            {
-                expected=1-a[j];
-                j++;
-                len++;
-                continue;
-            }
-            if(a[j]==expected)
-            {
-                len++;
-                expected=1-expected;
-            }
-            else
-            {
-                len=1;
-                expected=1-a[j];
-            }
-            if(j-i+1<k)
-            {
-                j++;
-            }
-            else if(j-i+1==k)
-            {
-                if(len>=k)
-                {
-                    ans++;
+
+        int ans = nums.size();  
+        std::sort(v.begin(), v.end());
+
+        for (const auto& [diff, values] : m) {
+            int T = std::lower_bound(v.begin(), v.end(), diff) - v.begin();
+            T = T * 2 + (nums.size() / 2 - T);
+            for (const auto& X : values) {
+                if (X < diff) {
+                    T -= 2;
+                } else {
+                    T -= 1;
                 }
-                j++;
-                i++;
             }
+            ans = std::min(ans, T);
         }
+
         return ans;
-    }
+}
 };
 """
