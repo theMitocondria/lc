@@ -7,6 +7,7 @@ max_retries = 5
 retry_delay = 1       
 api_call_limit = 30   
 pause_duration = 10   
+
 call_counter = 0
 
 async def check_plag_percentage_with_retry_and_throttling(code, question_id):
@@ -40,6 +41,7 @@ async def giveMeCheaters():
     with open('responses.json', 'r') as file:
         data = json.load(file)
     print(len(data))
+
     cheaters4 = []
     cheaters4Sol = []
     cheaters3 = []
@@ -57,6 +59,7 @@ async def giveMeCheaters():
         if data[curr]['questionId'] == '3':
             cheatedPercentage = await check_plag_percentage_with_retry_and_throttling(data[curr]['code'], '3')
             if cheatedPercentage['score'] > 0.78:
+
                 cheaters3.append({"rank": data[curr]['rank'], "username": data[curr]["username"], "cheatedPercentage": cheatedPercentage['score']})
                 cheaters3Sol.append({"rank": data[curr]['rank'], "solution": data[curr]["code"]})
 

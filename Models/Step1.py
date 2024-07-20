@@ -11,6 +11,7 @@ chat = ChatGroq(
     temperature=0,
     model="gemma2-9b-it",
     api_key =os.getenv(f'GROQ_API_KEY_5')
+  
 )
 
 system = """

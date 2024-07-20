@@ -70,12 +70,13 @@ def add_new_cheaters():
         contest_name = data.get('name')
 
         contest = Contest.objects.get(name = contest_name)
-        print(contest, contest_name)
+
         asyncio.run(add_cheaters_to_contest(contest))
 
         return jsonify({"message": "Contest found"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 async def save_contest_with_Cheaters(contest_name):
 

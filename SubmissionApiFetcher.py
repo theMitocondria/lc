@@ -13,7 +13,9 @@ from selenium.common.exceptions import (
     TimeoutException
 )
 
+
 from Contants import (STARTQUESTION, ENDQUESTION)
+
 import concurrent.futures
 from datetime import datetime
 from selenium.webdriver.common.keys import Keys
@@ -84,7 +86,9 @@ def process_page(page_number):
                 rank = cols[0].text
                 username = cols[1].text
                 result = { "rank" : rank , "username" : username , "solutions" : []}
+
                 for i in range(STARTQUESTION, ENDQUESTION):
+
                     questionid = i - 3
                     try:
                         a_tag = cols[i].find_element(By.TAG_NAME, 'a')
