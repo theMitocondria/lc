@@ -1,0 +1,6 @@
+venv
+.env
+*__pycache__*
+node_modules
+2.json
+responses.json
